@@ -20,11 +20,13 @@ def main():
     flag_verbose = False
 
     num_args = len(sys.argv)
+    if num_args <= 1:
+        print("Missing prompt argument")
+        print('Usage: python main.py "<prompt>"')
+        print('Example: python main.py "Foo bar baz?"')
+        exit(1)
     if num_args > 1:
         prompt = sys.argv[1]
-    else:
-        print("missing prompt argument. expecting `python3 main.py [prompt]`")
-        exit(1)
     if len(sys.argv) == 3 and sys.argv[2] == "--verbose":
         flag_verbose = True
 
