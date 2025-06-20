@@ -1,6 +1,6 @@
 # A CLI Coding AI Agent
 
-**CodeBuddy** is a Python-based command-line tool that accepts natural language coding tasks and attempts to solve them autonomously by chaining together a set of predefined capabilities.
+A Python-based command-line tool that accepts natural language coding tasks and attempts to solve them autonomously by chaining together a set of predefined capabilities.
 
 ## What It Does
 
