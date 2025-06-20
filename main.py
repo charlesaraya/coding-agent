@@ -18,7 +18,11 @@ def main():
         print("missing prompt argument. expecting `python3 main.py [prompt]`")
         exit(1)
 
-    response = client.models.generate_content(model="gemini-2.0-flash-001", contents=prompt)
+    messages = [
+        types.Content(role="user", parts=[types.Part(text=prompt)])
+    ]
+
+    response = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages)
 
     print(response.text)
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
