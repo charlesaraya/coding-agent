@@ -4,29 +4,26 @@ import unittest
 from unittest.mock import patch
 import io
 
-from functions.get_file_content import get_file_content
+from functions.write_file_content import write_file
 
 class TestGetFilesInfo(unittest.TestCase):
-    def test_file_over_max_size(self):
-        file_path = "lorem.txt"
-        out = get_file_content("calculator", file_path)
-        suffix = f'[...File "{file_path}" truncated at 10000 characters]'
-        self.assertTrue(out.endswith(suffix))
+    def test_write_file_success(self):
+        working_dir = "calculator"
+        file_paths = ["lorem.txt", "pkg/morelorem.txt"]
+        contents = ["wait, this isn't lorem ipsum", "lorem ipsum dolor sit amet"]
+        for path, content in zip(file_paths, contents):
+            out = write_file(working_dir, path, content)
+            self.assertTrue(out.startswith('Successfully'))
 
-    def test_file_under_max_size(self):
-        file_paths = ["main.py", "pkg/calculator.py"]
-        for path in file_paths:
-            out = get_file_content("calculator", path)
-            suffix = f'[...File "{path}" truncated at 10000 characters]'
-            self.assertFalse(out.endswith(suffix))
-
-    def test_no_exist_file(self):
-        file_path = "/bin/cat"
-        out = get_file_content("calculator", file_path)
+    def test_not_allowed(self):
+        working_dir = "calculator"
+        file_path = "/tmp/temp.txt"
+        content = "this should not be allowed"
+        out = write_file(working_dir, file_path, content)
         self.assertTrue(out.startswith('Error:'))
 
 if __name__ == "__main__":
-    print(get_file_content("calculator", "main.py"))
-    print(get_file_content("calculator", "pkg/calculator.py"))
-    print(get_file_content("calculator", "/bin/cat"))
+    print(write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum"))
+    print(write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet"))
+    print(write_file("calculator", "/tmp/temp.txt", "this should not be allowed"))
     unittest.main()
