@@ -7,7 +7,7 @@ def get_file_content(working_directory, file_path):
     abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
     if not abs_file_path.startswith(abs_working_dir):
         return f'Error: Cannot write to "{file_path}" as it is outside the permitted working directory'
-    if os.path.exists(abs_file_path):
+    if not os.path.exists(abs_file_path):
         return f'Error: {abs_file_path} does not exist'
     if not os.path.isfile(abs_file_path):
         return f'Error: {abs_file_path} is not a file'
