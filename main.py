@@ -7,6 +7,7 @@ from google.genai import types
 
 from functions.schemas import available_functions
 import prompts
+from call_function import call_function
 
 def verbose(prompt, response):
     print(f"User prompt: {prompt}")
@@ -36,7 +37,7 @@ def main():
         types.Content(role="user", parts=[types.Part(text=prompt)])
     ]
 
-    response = client.models.generate_content(
+    m_response = client.models.generate_content(
         model = "gemini-2.0-flash-001",
         contents = messages,
         config = types.GenerateContentConfig(
@@ -45,14 +46,18 @@ def main():
         )
     )
 
-    if response.function_calls:
-        for fc in response.function_calls:
-            print(f"Calling function: {fc.name}({fc.args})")
-    else:
-        print(response.text)
+    if m_response.function_calls:
+        for fc in m_response.function_calls:
+            fncall_result = call_function(fc)
+            fn_response = fncall_result.parts[0].function_response.response
+
+            if not fn_response:
+                raise Exception("func call has no response")
+            if flag_verbose:
+                print(f"-> {fncall_result.parts[0].function_response.response}")
 
     if flag_verbose:
-        verbose(prompt, response)
+        verbose(prompt, m_response)
 
 if __name__ == "__main__":
     main()
