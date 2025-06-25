@@ -5,11 +5,13 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+from functions.schemas import available_functions
+import prompts
+
 def verbose(prompt, response):
     print(f"User prompt: {prompt}")
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
     print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
-
 
 def main():
     load_dotenv()
@@ -34,9 +36,21 @@ def main():
         types.Content(role="user", parts=[types.Part(text=prompt)])
     ]
 
-    response = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages)
+    response = client.models.generate_content(
+        model = "gemini-2.0-flash-001",
+        contents = messages,
+        config = types.GenerateContentConfig(
+            system_instruction = prompts.system_prompt,
+            tools = [available_functions]
+        )
+    )
 
-    print(response.text)
+    if response.function_calls:
+        for fc in response.function_calls:
+            print(f"Calling function: {fc.name}({fc.args})")
+    else:
+        print(response.text)
+
     if flag_verbose:
         verbose(prompt, response)
 

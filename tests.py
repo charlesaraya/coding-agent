@@ -2,7 +2,7 @@
 
 import unittest
 
-from functions.run_python import run_python_file
+from functions.run_python_file import run_python_file
 
 class TestGetFilesInfo(unittest.TestCase):
     def test_run_file_success(self):
