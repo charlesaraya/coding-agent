@@ -5,7 +5,7 @@ from functions.get_files_info import get_files_info
 from functions.run_python_file import run_python_file
 from functions.write_file import write_file
 
-def call_function(function_call_part, verbose=False):
+def call_function(function_call_part: types.FunctionCall, verbose: bool = False) -> types.Content:
     if not function_call_part:
         raise AttributeError('please provide the `function_call_part` argument')
     if verbose:
