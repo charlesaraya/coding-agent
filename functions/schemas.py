@@ -56,6 +56,10 @@ schema_run_python_file = types.FunctionDeclaration(
                 type = types.Type.STRING,
                 description = "The `file_path` specifies the relative path (from working_directory) to the Python file to be executed; must point to a .py file within the permitted working directory.",
             ),
+            "cli_args": types.Schema(
+                type = types.Type.STRING,
+                description = "The `args` specifies any optional argument the Python file may require to be executed.",
+            ),
         },
     ),
 )

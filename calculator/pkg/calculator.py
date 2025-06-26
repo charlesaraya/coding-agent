@@ -9,7 +9,7 @@ class Calculator:
             "/": lambda a, b: a / b,
         }
         self.precedence = {
-            "+": 3,
+            "+": 1,
             "-": 1,
             "*": 2,
             "/": 2,
@@ -37,7 +37,7 @@ class Calculator:
             else:
                 try:
                     values.append(float(token))
-                except ValueError:
+                except ValueError:\
                     raise ValueError(f"invalid token: {token}")
 
         while operators:
@@ -59,4 +59,3 @@ class Calculator:
         b = values.pop()
         a = values.pop()
         values.append(self.operators[operator](a, b))
-

@@ -9,7 +9,7 @@ def call_function(function_call_part: types.FunctionCall, verbose: bool = False)
     if not function_call_part:
         raise AttributeError('please provide the `function_call_part` argument')
     if verbose:
-        print(f"Calling function: {function_call_part.name}({function_call_part.args})")
+        print(f" Calling function: {function_call_part.name}({function_call_part.args})")
     else:
         print(f" - Calling function: {function_call_part.name}")
 
